@@ -37,7 +37,7 @@ class ReadFeed:
         self._token = tokenRespContent[2:]
 
     def readStarred(self):
-        readerUrl = "http://www.google.com/reader/api/0/stream/contents/?xt=user/-/state/com.google/starred&n=5"
+        readerUrl = "http://www.google.com/reader/api/0/stream/contents/user/-/state/com.google/starred"
         readerReq = urllib2.Request(readerUrl, None, self._header)
         readerResp = urllib2.urlopen(readerReq)
         readerRespContent = readerResp.read()
@@ -54,10 +54,16 @@ class ReadFeed:
         for article in articles:
             # Remove star
             data = urllib.urlencode({"r":"user/-/state/com.google/starred",\
-                "async":"true", "s":articles["origin"]["streamId"]})
+                "async":"true", "s":article["origin"]["streamId"],\
+                "i":article["id"], "T":self._token})
+            req = urllib2.Request(url, data, self._header)
+            resp = urllib2.urlopen(req)
+
             # Mark as read
             data = urllib.urlencode({"a":"user/-/state/com.google/read",\
-                "async":"true", "s":articles["origin"]["streamId"]})
+                "async":"true", "s":article["origin"]["streamId"],
+                "i":article["id"], "T":self._token})
+            req = urllib2.Request(url, data, self._header)
 
 if __name__ == "__main__":
     rf = ReadFeed()
