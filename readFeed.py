@@ -46,7 +46,16 @@ class ReadFeed:
         # item["origin"]["streamId"] = feed
         # item["id"] = id
         # item["title"] = title
-        # item["summary"]["content"] = summary
+        # item["summary"]["content"] = description
+        # item["alternate"][0]["href"] = link
+        # item["published"] = pubDate
+
+        # Sometimes the description is in summary, sometimes content,
+        # fix so that summary key already exists
+        for item in parsedContent["items"]:
+            if "summary" not in item.keys():
+                item["summary"] = item["content"]
+
         return parsedContent["items"]
     
     def removeStars(self, articles):
@@ -64,11 +73,4 @@ class ReadFeed:
                 "async":"true", "s":article["origin"]["streamId"],
                 "i":article["id"], "T":self._token})
             req = urllib2.Request(url, data, self._header)
-
-if __name__ == "__main__":
-    rf = ReadFeed()
-    rf.login("", "")
-    rf.authenticate()
-    articles = rf.readStarred()
-    rf.removeStars(articles)
 
