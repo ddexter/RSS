@@ -4,18 +4,13 @@ import time
 from datetime import datetime
 
 class StoreFeed:
-    def __init__(self):
+    def __init__(self, conn):
         self._TABLE = "rssfeed"
-        self._conn = None
 
-    def connect(self, host, dbname, user, password):
-        # Connect to database
-        self._conn = None
-        try:
-            connStr = "host='%s' dbname='%s' user='%s' password='%s'" % (host, dbname, user, password)
-            self._conn = psycopg2.connect(connStr)
-        except:
-            print("Unable to connect")
+        if conn == None:
+            return
+
+        self._conn = conn
 
         # Create table if it does not exist
         cursor = self._conn.cursor()
@@ -24,7 +19,9 @@ class StoreFeed:
 
         if not cursor.fetchone()[0]:
             createStr = "CREATE TABLE rssfeed(id SERIAL PRIMARY KEY, title VARCHAR(512) NOT NULL, description TEXT NOT NULL, link VARCHAR(512) NOT NULL, pubDate DATE NOT NULL)"
+            createIdxStr = "CREATE INDEX date_idx ON rssfeed(pubDate)"
             cursor.execute(createStr)
+            cursor.execute(createIdxStr)
             self._conn.commit()
 
     def insert(self, articles):
