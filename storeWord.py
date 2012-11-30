@@ -25,12 +25,14 @@ class StoreWord:
             self._conn.commit()
 
     def formatWordList(self, words):
-        for word in words:
-            print word
-        # Remove punctuation
-        # Remove "'s"
-        tmp = [word.replace("'s", '') for word in words]
-        # Remove non-alphanumerics
+        # Strip HTML codes
+        pattern = re.compile('&#[0-9]+;', re.UNICODE)
+        tmp = [pattern.sub('', word) for word in words]
+
+        # Strip punctuation
+        # Strip "'s"
+        tmp = [word.replace("'s", '') for word in tmp]
+        # Strip non-alphanumerics
         pattern = re.compile('[\W_]+', re.UNICODE)
         tmp = [pattern.sub('', word) for word in tmp]
 
@@ -43,6 +45,9 @@ class StoreWord:
         # Remove stop words
         stopWords = nltk.corpus.stopwords.words('english')
         tmp = [word for word in tmp if word not in stopWords]
+
+        # Remove empty words
+        tmp = [word for word in tmp if word != '']
 
         # Lemmatize
         lmzr = nltk.stem.wordnet.WordNetLemmatizer()

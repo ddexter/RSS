@@ -54,7 +54,11 @@ class ReadFeed:
         # fix so that summary key already exists
         for item in parsedContent["items"]:
             if "summary" not in item.keys():
-                item["summary"] = item["content"]
+                if "content" in item.keys():
+                    item["summary"] = item["content"]
+                else:
+                    item["summary"] = {}
+                    item["summary"]["content"]= ''
 
         return parsedContent["items"]
     
