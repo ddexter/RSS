@@ -93,3 +93,13 @@ class StoreWord:
                             createStr % (word + ' ' + words[i + 1]))
 
                     self._conn.commit()
+
+    def retrieveTopHits(self, n=100):
+        queryStr = "SELECT word, count FROM words ORDER BY count DESC LIMIT %d"
+
+        cursor = self._conn.cursor()
+
+        cursor.execute(queryStr % (n))
+        wordList = cursor.fetchall()
+
+        return wordList

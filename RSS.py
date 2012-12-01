@@ -2,6 +2,7 @@ import dbConnector
 import readFeed
 import storeFeed
 import storeWord
+import tagCloud
 
 if __name__ == "__main__":
     db = dbConnector.DBConnector()
@@ -22,3 +23,7 @@ if __name__ == "__main__":
     wordStore = storeWord.StoreWord(conn)
     wordStore.insert(articles)
 
+    # Make word cloud
+    tagsCounts = wordStore.retrieveTopHits()
+    tagCloud = tagCloud.TagCloud()
+    tagCloud.makeCloud(tagsCounts)
