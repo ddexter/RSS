@@ -37,7 +37,7 @@ class ReadFeed:
         self._token = tokenRespContent[2:]
 
     def readStarred(self):
-        readerUrl = "http://www.google.com/reader/api/0/stream/contents/user/-/state/com.google/starred"
+        readerUrl = "http://www.google.com/reader/api/0/stream/contents/user/-/state/com.google/starred?n=10000"
         readerReq = urllib2.Request(readerUrl, None, self._header)
         readerResp = urllib2.urlopen(readerReq)
         readerRespContent = readerResp.read()
