@@ -64,8 +64,8 @@ class StoreWord:
 
         for article in articles:
             # Retrieve words in title of each article
-            article = article.replace('-', ' ')
-            words = article["title"].split()
+            title = article["title"].replace('-', ' ')
+            words = title.split()
             words = self.formatWordList(words)
             nWords = len(words)
 
