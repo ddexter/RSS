@@ -1,3 +1,4 @@
+import consts
 import psycopg2
 import time
 
@@ -18,7 +19,7 @@ class StoreFeed:
         cursor.execute(existsStr)
 
         if not cursor.fetchone()[0]:
-            createStr = "CREATE TABLE rssfeed(id SERIAL PRIMARY KEY, title VARCHAR(512) NOT NULL, description TEXT NOT NULL, link VARCHAR(512) NOT NULL, pubDate DATE NOT NULL)"
+            createStr = "CREATE TABLE rssfeed(id SERIAL PRIMARY KEY, title VARCHAR(512) NOT NULL, description TEXT NOT NULL, link VARCHAR(512) NOT NULL, pubDate TIMESTAMP NOT NULL)"
             createIdxStr = "CREATE INDEX date_idx ON rssfeed(pubDate)"
             cursor.execute(createStr)
             cursor.execute(createIdxStr)
@@ -38,3 +39,13 @@ class StoreFeed:
         cursor.executemany(insertStr, rows)
         self._conn.commit()
 
+    def getArticles(self, timeDelta=consts.THREE_DAYS_SEC):
+        cursor = self._conn.cursor()
+        nowSec = time.time()
+
+        queryStr = """SELECT * FROM rssfeed WHERE pubDate >= to_timestamp(%d) ORDER BY pubDate DESC"""
+
+        cursor.execute(queryStr % float(time.time() - timeDelta))
+        entries = cursor.fetchall()
+
+        return entries

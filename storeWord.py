@@ -95,7 +95,7 @@ class StoreWord:
 
                     self._conn.commit()
 
-    def retrieveTopHits(self, n=100):
+    def getTopHits(self, n=100):
         queryStr = "SELECT word, count FROM words ORDER BY count DESC LIMIT %d"
 
         cursor = self._conn.cursor()

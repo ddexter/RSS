@@ -1,3 +1,4 @@
+import createFeed
 import dbConnector
 import readFeed
 import storeFeed
@@ -24,6 +25,12 @@ if __name__ == "__main__":
     wordStore.insert(articles)
 
     # Make word cloud
-    tagsCounts = wordStore.retrieveTopHits()
+    tagsCounts = wordStore.getTopHits()
     tagCloud = tagCloud.TagCloud()
     tagCloud.makeCloud(tagsCounts)
+
+    # Create personal RSS feed
+    articles = feedStore.getArticles()
+    myFeed = createFeed.CreateFeed()
+    rss = myFeed.createRSSXML(articles)
+    #myFeed.pushFileToServer()

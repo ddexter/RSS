@@ -20,7 +20,7 @@ class TagCloud:
         tags = pytagcloud.make_tags(tagsCounts, colors=self._colors)
 
         pytagcloud.create_tag_image(tags, name, size=(width, height),\
-            fontname=font)
+            fontname=font, rectangular=True)
     
     def parseWords(self, tagsCounts):
         # Remove unigram words of bigrams in list
