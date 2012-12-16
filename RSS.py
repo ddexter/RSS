@@ -1,5 +1,6 @@
 import createFeed
 import dbConnector
+import ftp
 import readFeed
 import storeFeed
 import storeWord
@@ -33,4 +34,10 @@ if __name__ == "__main__":
     articles = feedStore.getArticles()
     myFeed = createFeed.CreateFeed()
     rss = myFeed.createRSSXML(articles)
-    #myFeed.pushFileToServer()
+
+    # Push tag cloud and RSS feed to server
+    server = ftp.FTP()
+    server.connect("", "", "" , "")
+    server.push("", "")
+    server.close()
+
