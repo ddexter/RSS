@@ -3,7 +3,7 @@ import paramiko
 class FTP:
     def connect(self, host, port, username, password):
         self.transport = paramiko.Transport((host, port))
-        transport.connect(username = username, password = password)
+        self.transport.connect(username = username, password = password)
 
     def push(self, fileFrom, fileTo, encrypted=True):
         ftp = None
