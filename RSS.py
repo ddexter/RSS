@@ -9,6 +9,9 @@ import tagCloud
 if __name__ == "__main__":
     db = dbConnector.DBConnector()
     conn = db.connect("", "", "", "")
+    
+    if conn == None:
+        return
 
     # Read feeds from starred items in Google Reader (this deletes starred)
     rf = readFeed.ReadFeed()
@@ -38,6 +41,7 @@ if __name__ == "__main__":
     # Push tag cloud and RSS feed to server
     server = ftp.FTP()
     server.connect("", "", "" , "")
+    server.push("", "")
     server.push("", "")
     server.close()
 

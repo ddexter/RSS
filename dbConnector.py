@@ -12,5 +12,6 @@ class DBConnector:
             self._conn = psycopg2.connect(connStr)
         except:
             print("Unable to connect")
+            self._conn = None
 
         return self._conn
