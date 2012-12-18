@@ -4,6 +4,7 @@ import ftp
 import readFeed
 import storeFeed
 import storeWord
+import sys
 import tagCloud
 
 if __name__ == "__main__":
@@ -11,7 +12,7 @@ if __name__ == "__main__":
     conn = db.connect("", "", "", "")
     
     if conn == None:
-        return
+        sys.exit()
 
     # Read feeds from starred items in Google Reader (this deletes starred)
     rf = readFeed.ReadFeed()
