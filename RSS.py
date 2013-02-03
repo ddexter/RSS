@@ -25,7 +25,7 @@ if __name__ == "__main__":
     LOCAL_TC = config.get('Local', 'TC')
 
     REMOTE_HOST = config.get('Remote', 'HOST')
-    REMOTE_PORT = config.get('Remote', 'PORT')
+    REMOTE_PORT = int(config.get('Remote', 'PORT'))
     REMOTE_USER = config.get('Remote', 'USER')
     REMOTE_PASSWORD = config.get('Remote', 'PASSWORD')
     REMOTE_RSS = config.get('Remote', 'RSS')
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # Create personal RSS feed
     articles = feedStore.getArticles()
     myFeed = createFeed.CreateFeed()
-    rss = myFeed.createRSSXML(articles, name=LOCAL_RSS)
+    rss = myFeed.createRSSXML(articles, fileName=LOCAL_RSS)
 
     # Push tag cloud and RSS feed to server
     server = ftp.FTP()
