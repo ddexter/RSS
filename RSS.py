@@ -11,7 +11,7 @@ from ConfigParser import SafeConfigParser
 
 if __name__ == "__main__":
     config = SafeConfigParser()
-    config.read('RSS.ini')
+    config.read('/home/ddexter/projects/RSS/RSS.ini')
 
     GOOGLE_USER = config.get('Google', 'USER')
     GOOGLE_PASSWORD = config.get('Google', 'PASSWORD')
